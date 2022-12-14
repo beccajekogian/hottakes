@@ -16,23 +16,23 @@ app.set('view engine', 'ejs'); //specify templating library
 //.............Define server routes..............................//
 //Express checks routes in the order in which they are defined
 
-app.get('/', function(request, response) {
+app.get('/feed', function(request, response) {
   response.status(200);
   response.setHeader('Content-Type', 'text/html')
   response.render("index");
 });
 
-app.get('/play', function(request, response) {
-    let opponents = JSON.parse(fs.readFileSync('data/opponents.json'));
+app.get('/feed', function(request, response) {
+    let posts = JSON.parse(fs.readFileSync('data/posts.json'));
     response.status(200);
     response.setHeader('Content-Type', 'text/html')
-    response.render("play", {
-      data: opponents
+    response.render("feed", {
+      data: posts
     });
 });
 
-app.get('/results', function(request, response) {
-    let opponents = JSON.parse(fs.readFileSync('data/opponents.json'));
+app.get('/viewContent', function(request, response) {
+    let posts = JSON.parse(fs.readFileSync('data/posts.json'));
 
     //accessing URL query string information from the request object
     let opponent = request.query.opponent;
@@ -65,7 +65,7 @@ app.get('/results', function(request, response) {
       else opponents[opponent]["tie"]++;
 
       //update opponents.json to permanently remember results
-      fs.writeFileSync('data/opponents.json', JSON.stringify(opponents));
+      fs.writeFileSync('data/posts.json', JSON.stringify(posts));
 
       response.status(200);
       response.setHeader('Content-Type', 'text/html')
@@ -82,8 +82,14 @@ app.get('/results', function(request, response) {
 });
 
 app.get('/scores', function(request, response) {
-  let opponents = JSON.parse(fs.readFileSync('data/opponents.json'));
+  let posts = JSON.parse(fs.readFileSync('data/posts.json'));
   let opponentArray=[];
+
+  for (topic in posts){
+
+  }
+
+
 
   //create an array to use sort, and dynamically generate win percent
   for(name in opponents){
@@ -91,9 +97,6 @@ app.get('/scores', function(request, response) {
     if(opponents[name].win_percent=="NaN") opponents[name].win_percent=0;
     opponentArray.push(opponents[name])
   }
-  opponentArray.sort(function(a, b){
-    return parseFloat(b.win_percent)-parseFloat(a.win_percent);
-  })
 
   response.status(200);
   response.setHeader('Content-Type', 'text/html')
@@ -103,7 +106,7 @@ app.get('/scores', function(request, response) {
 });
 
 app.get('/opponent/:opponentName', function(request, response) {
-  let opponents = JSON.parse(fs.readFileSync('data/opponents.json'));
+  let posts = JSON.parse(fs.readFileSync('data/posts.json'));
 
   // using dynamic routes to specify resource request information
   let opponentName = request.params.opponentName;
