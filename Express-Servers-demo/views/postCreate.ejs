@@ -3,18 +3,21 @@
 <h2>Create a New Post!</h2>
 
 <form action="/postCreate" method="POST">
-  <label for="topic">Link to :</label>
+  <label for="topic">Topic:</label>
   <input type="text" id="topic" name="postTopic" value=""><br>
 
-  <label for="subject">summerize: </label>
-  <input type="text" id="subject" name="postSubject" value=""><br>
+  <label for="subject">Post title: </label>
+  <input type="text" id="title" name="postSubject" value=""><br>
 
   <label for="post">What's on your mind: </label>
   <input type="text" id="content" post="postText" value=""><br>
+
+  <label for="photo">Link for photo:</label>
+  <input type="text" id="photo" name="postPhoto" value=""><br>
 
   <br><br>
   <input type="submit" value="Create new post!">
 
 </form>
 
-<%- include('partials/footer') -%>
+<%- include('partials/footer') -%> 
