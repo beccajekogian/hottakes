@@ -88,7 +88,11 @@ app.get('/viewContent', function(request, response) {
   for (post in posts){
     if (topicsList.hasOwnProperty(post.topic.trim())){
       topicsList[post.topic.trim()][post.postID] = post;
+    } else{
+
     }
+
+
 
     // if (topicsArray.includes(post.topic.trim())){
     //   posts['topics'][post.topic] = parseInt(posts['topics'][post.topic]) + 1;
@@ -149,17 +153,17 @@ app.get('/opponentCreate', function(request, response) {
     response.render("opponentCreate");
 });
 
-app.post('/opponentCreate', function(request, response) {
-    let opponentName = request.body.opponentName;
-    let opponentPhoto = request.body.opponentPhoto;
+app.post('/postCreate', function(request, response) {
+    let postID = request.body.postID;
+    let postPhoto = request.body.postPhoto;
     if(opponentName&&opponentPhoto){
-      let opponents = JSON.parse(fs.readFileSync('data/opponents.json'));
-      let newOpponent={
-        "name": opponentName,
-        "photo": opponentPhoto,
-        "win":0,
-        "lose": 0,
-        "tie": 0,
+      let posts = JSON.parse(fs.readFileSync('data/posts.json'));
+      let newPost={
+        "postID": postID,
+        "topic": topic,
+        "title": ,
+        "content": 0,
+        "photo": postPhoto,
       }
       opponents[opponentName] = newOpponent;
       fs.writeFileSync('data/opponents.json', JSON.stringify(opponents));
