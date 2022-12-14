@@ -30,63 +30,76 @@ app.get('/feed', function(request, response) {
       data: posts
     });
 });
+//
+// app.get('/viewContent', function(request, response) {
+//     let posts = JSON.parse(fs.readFileSync('data/posts.json'));
+//
+//     //accessing URL query string information from the request object
+//     let opponent = request.query.opponent;
+//     let playerThrow = request.query.throw;
+//
+//     if(opponents[opponent]){
+//       let opponentThrowChoices=["Paper", "Rock", "Scissors"];
+//       let results={};
+//
+//       results["playerThrow"]=playerThrow;
+//       results["opponentName"]=opponent;
+//       results["opponentPhoto"]=opponents[opponent].photo;
+//       results["opponentThrow"] = opponentThrowChoices[Math.floor(Math.random() * 3)];
+//
+//       if(results["playerThrow"]===results["opponentThrow"]){
+//         results["outcome"] = "tie";
+//       }else if(results["playerThrow"]==="Paper"){
+//         if(results["opponentThrow"]=="Scissors") results["outcome"] = "lose";
+//         else results["outcome"] = "win";
+//       }else if(results["playerThrow"]==="Scissors"){
+//         if(results["opponentThrow"]=="Rock") results["outcome"] = "lose";
+//         else results["outcome"] = "win";
+//       }else{
+//         if(results["opponentThrow"]=="Paper") results["outcome"] = "lose";
+//         else results["outcome"] = "win";
+//       }
+//
+//       if(results["outcome"]=="lose") opponents[opponent]["win"]++;
+//       else if(results["outcome"]=="win") opponents[opponent]["lose"]++;
+//       else opponents[opponent]["tie"]++;
+//
+//       //update opponents.json to permanently remember results
+//       fs.writeFileSync('data/posts.json', JSON.stringify(posts));
+//
+//       response.status(200);
+//       response.setHeader('Content-Type', 'text/html')
+//       response.render("results", {
+//         data: results
+//       });
+//     }else{
+//       response.status(404);
+//       response.setHeader('Content-Type', 'text/html')
+//       response.render("error", {
+//         "errorCode":"404"
+//       });
+//     }
+// });
 
 app.get('/viewContent', function(request, response) {
-    let posts = JSON.parse(fs.readFileSync('data/posts.json'));
-
-    //accessing URL query string information from the request object
-    let opponent = request.query.opponent;
-    let playerThrow = request.query.throw;
-
-    if(opponents[opponent]){
-      let opponentThrowChoices=["Paper", "Rock", "Scissors"];
-      let results={};
-
-      results["playerThrow"]=playerThrow;
-      results["opponentName"]=opponent;
-      results["opponentPhoto"]=opponents[opponent].photo;
-      results["opponentThrow"] = opponentThrowChoices[Math.floor(Math.random() * 3)];
-
-      if(results["playerThrow"]===results["opponentThrow"]){
-        results["outcome"] = "tie";
-      }else if(results["playerThrow"]==="Paper"){
-        if(results["opponentThrow"]=="Scissors") results["outcome"] = "lose";
-        else results["outcome"] = "win";
-      }else if(results["playerThrow"]==="Scissors"){
-        if(results["opponentThrow"]=="Rock") results["outcome"] = "lose";
-        else results["outcome"] = "win";
-      }else{
-        if(results["opponentThrow"]=="Paper") results["outcome"] = "lose";
-        else results["outcome"] = "win";
-      }
-
-      if(results["outcome"]=="lose") opponents[opponent]["win"]++;
-      else if(results["outcome"]=="win") opponents[opponent]["lose"]++;
-      else opponents[opponent]["tie"]++;
-
-      //update opponents.json to permanently remember results
-      fs.writeFileSync('data/posts.json', JSON.stringify(posts));
-
-      response.status(200);
-      response.setHeader('Content-Type', 'text/html')
-      response.render("results", {
-        data: results
-      });
-    }else{
-      response.status(404);
-      response.setHeader('Content-Type', 'text/html')
-      response.render("error", {
-        "errorCode":"404"
-      });
-    }
-});
-
-app.get('/scores', function(request, response) {
   let posts = JSON.parse(fs.readFileSync('data/posts.json'));
-  let opponentArray=[];
+  let topicsList = posts['topics'];
 
-  for (topic in posts){
+  for (post in posts){
+    if (topicsList.hasOwnProperty(post.topic.trim())){
+      topicsList[post.topic.trim()][post.postID] = post;
+    }
 
+    // if (topicsArray.includes(post.topic.trim())){
+    //   posts['topics'][post.topic] = parseInt(posts['topics'][post.topic]) + 1;
+
+      //means that there is already another post with this topic
+    // } else{
+    //   topicsArray.push(topic);
+    // }
+
+    // posts['topics'] =
+    // posts['topics'][post.topic] = parseInt(posts['topics'][post.topic]) + 1;
   }
 
 
