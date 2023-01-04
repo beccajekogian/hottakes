@@ -63,7 +63,7 @@ app.get('/viewContent', function(request, response) {
     }
 }
 
-  
+
 
   response.status(200);
   response.setHeader('Content-Type', 'text/html')
@@ -105,8 +105,7 @@ app.get('/opponentCreate', function(request, response) {
 
 //this should be good
 app.post('/postCreate', function(request, response) {
-    let postID = request.body.postID;
-
+    let postID = request.body.postID; //connects to name="postID" in the ejs form
     let postPhoto = request.body.postPhoto;
     let postTopic = request.body.postID.topic;
     let postContent = request.body.postID.content;
