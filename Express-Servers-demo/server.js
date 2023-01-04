@@ -30,71 +30,45 @@ app.get('/feed', function(request, response) {
       data: posts
     });
 });
-//
-// app.get('/viewContent', function(request, response) {
-//     let posts = JSON.parse(fs.readFileSync('data/posts.json'));
-//
-//     //accessing URL query string information from the request object
-//     let opponent = request.query.opponent;
-//     let playerThrow = request.query.throw;
-//
-//     if(opponents[opponent]){
-//       let opponentThrowChoices=["Paper", "Rock", "Scissors"];
-//       let results={};
-//
-//       results["playerThrow"]=playerThrow;
-//       results["opponentName"]=opponent;
-//       results["opponentPhoto"]=opponents[opponent].photo;
-//       results["opponentThrow"] = opponentThrowChoices[Math.floor(Math.random() * 3)];
-//
-//       if(results["playerThrow"]===results["opponentThrow"]){
-//         results["outcome"] = "tie";
-//       }else if(results["playerThrow"]==="Paper"){
-//         if(results["opponentThrow"]=="Scissors") results["outcome"] = "lose";
-//         else results["outcome"] = "win";
-//       }else if(results["playerThrow"]==="Scissors"){
-//         if(results["opponentThrow"]=="Rock") results["outcome"] = "lose";
-//         else results["outcome"] = "win";
-//       }else{
-//         if(results["opponentThrow"]=="Paper") results["outcome"] = "lose";
-//         else results["outcome"] = "win";
-//       }
-//
-//       if(results["outcome"]=="lose") opponents[opponent]["win"]++;
-//       else if(results["outcome"]=="win") opponents[opponent]["lose"]++;
-//       else opponents[opponent]["tie"]++;
-//
-//       //update opponents.json to permanently remember results
-//       fs.writeFileSync('data/posts.json', JSON.stringify(posts));
-//
-//       response.status(200);
-//       response.setHeader('Content-Type', 'text/html')
-//       response.render("results", {
-//         data: results
-//       });
-//     }else{
-//       response.status(404);
-//       response.setHeader('Content-Type', 'text/html')
-//       response.render("error", {
-//         "errorCode":"404"
-//       });
-//     }
-// });
+
 
 app.get('/viewContent', function(request, response) {
   let posts = JSON.parse(fs.readFileSync('data/posts.json'));
   let topicsList = posts['topics'];
 
-  for (post in posts){
-    if (topicsList.hasOwnProperty(post.topic.trim())){
-      topicsList[post.topic.trim()][post.postID] = post;
-    } else{
+  for (let post in posts){
+    let postTopic = post['topic'].toLowerCase().trim();
+    if (topicsList.hasOwnProperty(postTopic)){
+      //if the topic already exists
+      // topicsList[postTopic][post.postID] = post;
+      topicsList[postTopic] = parseInt(topicsList[postTopic]) + 1; //increase the count of posts under that topic
 
+    } else{
+      //if the topic doesn't exist yet in topicsList
+      topicsList[postTopic] = 1;
+    }
+  }
+
+  //sort the array by amount of posts in each topic
+  let sortedByNumber = [];
+  for (let topic in topicsList){
+    sortedByNumber.push([topic, maxSpeed[vehicle]]);
+
+    for (var vehicle in maxSpeed) {
     }
 
+sortable.sort(function(a, b) {
+    return a[1] - b[1];
+});
+
+  }
 
 
-    // if (topicsArray.includes(post.topic.trim())){
+
+
+
+
+
     //   posts['topics'][post.topic] = parseInt(posts['topics'][post.topic]) + 1;
 
       //means that there is already another post with this topic
@@ -190,6 +164,58 @@ app.use("", function(request, response){
     "errorCode":"404"
   });
 });
+
+//
+// app.get('/viewContent', function(request, response) {
+//     let posts = JSON.parse(fs.readFileSync('data/posts.json'));
+//
+//     //accessing URL query string information from the request object
+//     let opponent = request.query.opponent;
+//     let playerThrow = request.query.throw;
+//
+//     if(opponents[opponent]){
+//       let opponentThrowChoices=["Paper", "Rock", "Scissors"];
+//       let results={};
+//
+//       results["playerThrow"]=playerThrow;
+//       results["opponentName"]=opponent;
+//       results["opponentPhoto"]=opponents[opponent].photo;
+//       results["opponentThrow"] = opponentThrowChoices[Math.floor(Math.random() * 3)];
+//
+//       if(results["playerThrow"]===results["opponentThrow"]){
+//         results["outcome"] = "tie";
+//       }else if(results["playerThrow"]==="Paper"){
+//         if(results["opponentThrow"]=="Scissors") results["outcome"] = "lose";
+//         else results["outcome"] = "win";
+//       }else if(results["playerThrow"]==="Scissors"){
+//         if(results["opponentThrow"]=="Rock") results["outcome"] = "lose";
+//         else results["outcome"] = "win";
+//       }else{
+//         if(results["opponentThrow"]=="Paper") results["outcome"] = "lose";
+//         else results["outcome"] = "win";
+//       }
+//
+//       if(results["outcome"]=="lose") opponents[opponent]["win"]++;
+//       else if(results["outcome"]=="win") opponents[opponent]["lose"]++;
+//       else opponents[opponent]["tie"]++;
+//
+//       //update opponents.json to permanently remember results
+//       fs.writeFileSync('data/posts.json', JSON.stringify(posts));
+//
+//       response.status(200);
+//       response.setHeader('Content-Type', 'text/html')
+//       response.render("results", {
+//         data: results
+//       });
+//     }else{
+//       response.status(404);
+//       response.setHeader('Content-Type', 'text/html')
+//       response.render("error", {
+//         "errorCode":"404"
+//       });
+//     }
+// });
+
 
 //..............Start the server...............................//
 const port = process.env.PORT || 3000;
