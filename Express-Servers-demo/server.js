@@ -128,7 +128,7 @@ app.get('/opponentCreate', function(request, response) {
 });
 
 app.post('/postCreate', function(request, response) {
-    let postID = request.body.postID;
+    let postID = request.body.postID; //connects to name="postID" in the ejs form
     let postPhoto = request.body.postPhoto;
     if(opponentName&&opponentPhoto){
       let posts = JSON.parse(fs.readFileSync('data/posts.json'));
