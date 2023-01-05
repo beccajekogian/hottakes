@@ -2,6 +2,8 @@
 const express = require('express');
 const fs = require('fs');
 const ejs = require('ejs');
+const uuid = require('uuid');
+
 
 //..............Create an Express server object..................//
 const app = express();
@@ -36,7 +38,6 @@ app.get('/viewContent', function(request, response) {
   let posts = JSON.parse(fs.readFileSync('data/posts.json'));
   let topicsList = posts['topics'];
   for (let post in posts){
-    let postID
     let postTopic = post['topic'].toLowerCase().trim();
     if (topicsList.hasOwnProperty(postTopic)){
       //if the topic already exists
@@ -105,7 +106,8 @@ app.get('/postCreate', function(request, response) {
 
 //this should be good
 app.post('/postCreate', function(request, response) {
-    let postID = request.body.postID; //connects to name="postID" in the ejs form
+    let postID = uuid.v4();
+    let postPhoto = request.body.postPhoto;
     let postTopic = request.body.postID.topic;
     let postContent = request.body.postID.content;
     let postTitle = request.body.postID.title;
