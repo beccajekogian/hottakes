@@ -24,52 +24,35 @@ app.get('/', function(request, response) {
   response.render("index");
 });
 
-app.get('/feed', function(request, response) {
-    let posts = JSON.parse(fs.readFileSync('data/posts.json'));
-    response.status(200);
-    response.setHeader('Content-Type', 'text/html')
-    response.render("feed", {
-      data: posts
-    });
-});
+// app.get('/feed', function(request, response) {
+//     let posts = JSON.parse(fs.readFileSync('data/posts.json'));
+//     response.status(200);
+//     response.setHeader('Content-Type', 'text/html')
+//     response.render("feed", {
+//       data: posts
+//     });
+// });
 
 
 app.get('/viewContent', function(request, response) {
   let posts = JSON.parse(fs.readFileSync('data/posts.json'));
   let topicsList = posts['topics'];
-  for (let post in posts){
-    let postTopic = post['topic'].toLowerCase().trim();
-    if (topicsList.hasOwnProperty(postTopic)){
-      //if the topic already exists
-      // topicsList[postTopic][post.postID] = post;
-      topicsList[postTopic] = parseInt(topicsList[postTopic]) + 1; //increase the count of posts under that topic
-    } else{
-      //if the topic doesn't exist yet in topicsList
-      topicsList[postTopic] = 1;
-    }
+  let sortedTopics = [];
 
-
-  //sort the array by amount of posts in each topic
-    let sortTopics = [];
-
+  for (let topic in topicsList){
     //create array with [topic, number of posts with that topic]
-    for (let topic in topicsList){
-      sortTopics.push([topic, topicsList[postTopic]]);
-    }
-    //sort the array based on number
-    sortTopics.sort(function(a, b) {
-        return a[1] - b[1];
-    });
+    sortedTopics.push([topic, topicsList[topic]]);
+  }
 
-    }
-}
-
-
+  //sort the array based on number
+  sortedTopics.sort(function(a, b) {
+      return a[1] - b[1];
+  });
 
   response.status(200);
   response.setHeader('Content-Type', 'text/html')
-  response.render("scores",{
-    opponents: opponentArray
+  response.render("viewContent",{
+    topics: sortedTopics
   });
 });
 
