@@ -2,6 +2,8 @@
 const express = require('express');
 const fs = require('fs');
 const ejs = require('ejs');
+const uuid = require('uuid');
+
 
 //..............Create an Express server object..................//
 const app = express();
@@ -104,7 +106,7 @@ app.get('/opponentCreate', function(request, response) {
 
 //this should be good
 app.post('/postCreate', function(request, response) {
-    let postID = request.body.postID; //connects to name="postID" in the ejs form
+    let postID = uuid.v4(); 
     let postPhoto = request.body.postPhoto;
     let postTopic = request.body.postID.topic;
     let postContent = request.body.postID.content;
@@ -119,6 +121,10 @@ app.post('/postCreate', function(request, response) {
         "photo": postPhoto,
       }
       posts[postID] = newPost;
+
+
+
+
       fs.writeFileSync('data/posts.json', JSON.stringify(posts));
 
       response.status(200);
