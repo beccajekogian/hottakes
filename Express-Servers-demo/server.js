@@ -16,7 +16,7 @@ app.set('view engine', 'ejs'); //specify templating library
 //.............Define server routes..............................//
 //Express checks routes in the order in which they are defined
 
-app.get('/feed', function(request, response) {
+app.get('/', function(request, response) {
   response.status(200);
   response.setHeader('Content-Type', 'text/html')
   response.render("index");
@@ -35,60 +35,39 @@ app.get('/feed', function(request, response) {
 app.get('/viewContent', function(request, response) {
   let posts = JSON.parse(fs.readFileSync('data/posts.json'));
   let topicsList = posts['topics'];
-
   for (let post in posts){
+<<<<<<< HEAD
 
+=======
+    let postID
+>>>>>>> 16933c9c7f970208f3a1cad9d78a697556c60436
     let postTopic = post['topic'].toLowerCase().trim();
     if (topicsList.hasOwnProperty(postTopic)){
       //if the topic already exists
       // topicsList[postTopic][post.postID] = post;
       topicsList[postTopic] = parseInt(topicsList[postTopic]) + 1; //increase the count of posts under that topic
-
     } else{
       //if the topic doesn't exist yet in topicsList
       topicsList[postTopic] = 1;
     }
-  }
+
 
   //sort the array by amount of posts in each topic
-  let sortedByNumber = [];
-  for (let topic in topicsList){
-    sortedByNumber.push([topic, maxSpeed[vehicle]]);
+    let sortTopics = [];
 
-    for (var vehicle in maxSpeed) {
+    //create array with [topic, number of posts with that topic]
+    for (let topic in topicsList){
+      sortTopics.push([topic, topicsList[postTopic]]);
     }
+    //sort the array based on number
+    sortTopics.sort(function(a, b) {
+        return a[1] - b[1];
+    });
 
-sortable.sort(function(a, b) {
-    return a[1] - b[1];
-});
-
-  }
-
-
-
+    }
+}
 
 
-
-
-    //   posts['topics'][post.topic] = parseInt(posts['topics'][post.topic]) + 1;
-
-      //means that there is already another post with this topic
-    // } else{
-    //   topicsArray.push(topic);
-    // }
-
-    // posts['topics'] =
-    // posts['topics'][post.topic] = parseInt(posts['topics'][post.topic]) + 1;
-  }
-
-
-
-  //create an array to use sort, and dynamically generate win percent
-  for(name in opponents){
-    opponents[name].win_percent = (opponents[name].win/parseFloat(opponents[name].win+opponents[name].lose+opponents[name].tie) * 100).toFixed(2);
-    if(opponents[name].win_percent=="NaN") opponents[name].win_percent=0;
-    opponentArray.push(opponents[name])
-  }
 
   response.status(200);
   response.setHeader('Content-Type', 'text/html')
@@ -97,11 +76,11 @@ sortable.sort(function(a, b) {
   });
 });
 
-app.get('/opponent/:opponentName', function(request, response) {
+app.get('/post/:postID', function(request, response) {
   let posts = JSON.parse(fs.readFileSync('data/posts.json'));
 
   // using dynamic routes to specify resource request information
-  let opponentName = request.params.opponentName;
+  let postID = request.params.postID;
 
   if(opponents[opponentName]){
     opponents[opponentName].win_percent = (opponents[opponentName].win/parseFloat(opponents[opponentName].win+opponents[opponentName].lose+opponents[opponentName].tie) * 100).toFixed(2);
@@ -128,24 +107,29 @@ app.get('/opponentCreate', function(request, response) {
     response.render("opponentCreate");
 });
 
+//this should be good
 app.post('/postCreate', function(request, response) {
     let postID = request.body.postID; //connects to name="postID" in the ejs form
     let postPhoto = request.body.postPhoto;
-    if(opponentName&&opponentPhoto){
+    let postTopic = request.body.postID.topic;
+    let postContent = request.body.postID.content;
+    let postTitle = request.body.postID.title;
+    if(postID&&postTopic&&postContent&&postTitle){
       let posts = JSON.parse(fs.readFileSync('data/posts.json'));
       let newPost={
         "postID": postID,
-        "topic": topic,
-        "title": ,
-        "content": 0,
+        "topic": postTopic,
+        "title": postTitle,
+        "content": postContent,
         "photo": postPhoto,
       }
-      opponents[opponentName] = newOpponent;
-      fs.writeFileSync('data/opponents.json', JSON.stringify(opponents));
+      posts[postID] = newPost;
+      fs.writeFileSync('data/posts.json', JSON.stringify(posts));
 
       response.status(200);
       response.setHeader('Content-Type', 'text/html')
-      response.redirect("/opponent/"+opponentName);
+      response.redirect("/post/"+postID);
+
     }else{
       response.status(400);
       response.setHeader('Content-Type', 'text/html')
