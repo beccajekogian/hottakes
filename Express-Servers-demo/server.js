@@ -125,6 +125,7 @@ app.post('/postCreate', function(request, response) {
       response.status(200);
       response.setHeader('Content-Type', 'text/html')
       response.redirect("/post/"+postID);
+
     }else{
       response.status(400);
       response.setHeader('Content-Type', 'text/html')
