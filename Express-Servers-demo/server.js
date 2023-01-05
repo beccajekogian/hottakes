@@ -37,6 +37,7 @@ app.get('/viewContent', function(request, response) {
   let topicsList = posts['topics'];
 
   for (let post in posts){
+
     let postTopic = post['topic'].toLowerCase().trim();
     if (topicsList.hasOwnProperty(postTopic)){
       //if the topic already exists
