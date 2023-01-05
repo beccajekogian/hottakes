@@ -36,11 +36,6 @@ app.get('/viewContent', function(request, response) {
   let posts = JSON.parse(fs.readFileSync('data/posts.json'));
   let topicsList = posts['topics'];
   for (let post in posts){
-<<<<<<< HEAD
-
-=======
-    let postID
->>>>>>> 16933c9c7f970208f3a1cad9d78a697556c60436
     let postTopic = post['topic'].toLowerCase().trim();
     if (topicsList.hasOwnProperty(postTopic)){
       //if the topic already exists
