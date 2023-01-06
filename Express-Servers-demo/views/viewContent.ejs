@@ -1,9 +1,23 @@
 <%- include('partials/header', {title:"Post Details"}) -%>
 
-<img src="<%=post.photo%>" height=150 />
+<h2>Top Topics Ranked</h2>
+<table>
+  <tr>
+    <th>
+      Topic
+    </th>
+    <th>
+      number of posts
+    </th>
+  </tr>
+  <%for(let i = 0; i<topics.length; i++){%>
+  <th>
+    <a href="/topic/<%=topics[i][0]%>"><%=topics[i][0]%></a>
+  </th>
+  <th>
+    <%=topics[i][1]%>
+  </th>
+  <%}%>
+</table>
 
-<h2>Subject - <%=post.subject%> </h2>
-<h2>Topic - <%=post.topic%> </h2>
-<h2>Post - <%=post.post%> </h2>
-
-<%- include('partials/footer') -%>
+  <%- include('partials/footer') -%>

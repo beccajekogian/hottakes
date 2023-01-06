@@ -1,10 +1,36 @@
-{postID: , {
-  topic: ,
-  content:
+{posts: {
+  postID: {
+    "postID": 5,
+    "title": "hi",
+    "topic": "something",
+    "content": "how was your day?"
+
+  }
+  topics: {
+    "add name": {
+      "topicName": ,
+      "topicNumber": ,
+    }
+    sortedTopics: [ [topic, number], [topic, number]]
+    }
 
 }
 
-topicList
 
 
 }
+
+{"Mario":{
+  "name":"Mario",
+  "photo":"https://upload.wikimedia.org/wikipedia/en/a/a9/MarioNSMBUDeluxe.png",
+  "win":27,
+  "lose":11,
+  "tie":1
+},
+"Luigi":{
+  "name":"Luigi",
+  "photo":"https://upload.wikimedia.org/wikipedia/en/7/73/Luigi_NSMBUDX.png",
+  "win":11,
+  "lose":5,
+  "tie":1
+},

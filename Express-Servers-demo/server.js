@@ -37,22 +37,19 @@ app.get('/', function(request, response) {
 app.get('/viewContent', function(request, response) {
   let posts = JSON.parse(fs.readFileSync('data/posts.json'));
   let topicsList = posts['topics'];
-  let sortedTopics = [];
 
-  for (let topic in topicsList){
-    //create array with [topic, number of posts with that topic]
-    sortedTopics.push([topic, topicsList[topic]]);
-  }
+  let sortTopics = posts["topics"]["sortedTopics"];
 
-  //sort the array based on number
-  sortedTopics.sort(function(a, b) {
-      return a[1] - b[1];
+  sortTopics.sort(function(a, b) {
+    return parseFloat(a.topicNumber)-parseFloat(b.topicNumber);
   });
+
+  posts['topics']["sortedTopics"] = sortTopics;
 
   response.status(200);
   response.setHeader('Content-Type', 'text/html')
   response.render("viewContent",{
-    topics: sortedTopics
+    topics: sortTopics
   });
 });
 
@@ -71,7 +68,6 @@ app.get('/post/:postID', function(request, response) {
     response.render("opponentDetails",{
       post: posts[postID]
     });
-
   }else{
     response.status(404);
     response.setHeader('Content-Type', 'text/html')
@@ -104,17 +100,21 @@ app.post('/postCreate', function(request, response) {
       }
       posts[postID] = newPost;
 
-      let topicsList = posts['topics'];
+      let topicsList = posts["topics"];
       for (let post in posts){
         //let postTopic = post['topic'].toLowerCase().trim();
         if (topicsList.hasOwnProperty(postTopic)){
           //if the topic already exists
-          // topicsList[postTopic][post.postID] = post;
-          topicsList[postTopic] = parseInt(topicsList[postTopic]) + 1; //increase the count of posts under that topic
+          topicsList[postTopic]["topicNumber"] = parseInt(topicsList[postTopic]) + 1; //increase the count of posts under that topic
         } else{
           //if the topic doesn't exist yet in topicsList
-          topicsList[postTopic] = 1;
+          topicsList[postTopic]["topicName"] = postTopic;
+          topicsList[postTopic]["topicNumber"] = 1;
+          let sortTopics = posts["topics"]["sortedTopics"];
+          sortTopics.push(topicsList[postTopic]);
+          posts["topics"]["sortedTopics"] = sortTopics;
         }
+
 
       fs.writeFileSync('data/posts.json', JSON.stringify(posts));
 
@@ -129,6 +129,30 @@ app.post('/postCreate', function(request, response) {
         "errorCode":"400"
       });
     }
+});
+
+
+app.get('/topic/:topicName', function(request, response) {
+  let posts = JSON.parse(fs.readFileSync('data/posts.json'));
+
+  // using dynamic routes to specify resource request information
+  let topic = request.params.topicName;
+
+  if(topics[topicName]){
+
+    response.status(200);
+    response.setHeader('Content-Type', 'text/html')
+    response.render("opponentDetails",{
+      topic: topics[topicName]
+    });
+
+  }else{
+    response.status(404);
+    response.setHeader('Content-Type', 'text/html')
+    response.render("error", {
+      "errorCode":"404"
+    });
+  }
 });
 
 // Because routes/middleware are applied in order,
