@@ -36,27 +36,34 @@ app.get('/', function(request, response) {
 
 app.get('/viewContent', function(request, response) {
   let posts = JSON.parse(fs.readFileSync('data/posts.json'));
-  let topicsList = posts['topics'];
+  let topics = JSON.parse(fs.readFileSync('data/topics.json'));
 
-  let sortTopics = posts["topics"]["sortedTopics"];
+  let sortTopics = [];
 
-  let topicsList = posts['topics'];
+  console.log(posts);
+
   for (post in posts){
-    let postTopic = post['topic'];
-    if (topicsList.hasOwnProperty(postTopic)){ //if the topic already exists
-      topicsList[postTopic]["topicNumber"] = parseInt(topicsList[postTopic]["topicNumber"])+1; //increase the count of posts under that topic
-    } else{ //if the topic doesn't exist yet in topicsList
-      topicsList[postTopic]["topicName"] = postTopic;
-      topicsList[postTopic]["topicNumber"] = 1;
-      sortTopics.push(topicsList[postTopic]);
+
+    let postTopic = posts[post].topic;
+    sortTopics.push(postTopic);
+    if (topics.hasOwnProperty(postTopic)){ //if the topic already exists
+      topics[postTopic]["topicNumber"]++
+      // = parseInt(topics[postTopic]["topicNumber"])+1; //increase the count of posts under that topic
+    } else { //if the topic doesn't exist yet in topicsList
+      let newTopic = {
+        "topicName": postTopic,
+        "topicNumber": 1
+      }
+      topics[postTopic] = newTopic;
     }
-  }
+   }
 
   sortTopics.sort(function(a, b) {
     return parseFloat(a.topicNumber)-parseFloat(b.topicNumber);
   });
+  fs.writeFileSync('data/topics.json', JSON.stringify(topics));
 
-  posts['topics']["sortedTopics"] = sortTopics;
+  //posts['topics']["sortedTopics"] = sortTopics;
 
   response.status(200);
   response.setHeader('Content-Type', 'text/html')
@@ -131,17 +138,17 @@ app.post('/postCreate', function(request, response) {
 
 app.get('/topic/:topicName', function(request, response) {
   let posts = JSON.parse(fs.readFileSync('data/posts.json'));
+  let topics = JSON.parse(fs.readFileSync('data/topics.json'));
 
   // using dynamic routes to specify resource request information
   let topicName = request.params.topicName;
 
-  if(posts["topics"][topicName]){
-
+  if(topics[topicName]){
     response.status(200);
     response.setHeader('Content-Type', 'text/html')
     response.render("topicDetails", {
       data: posts,
-      topic: posts["topics"][topicName]
+      topic: topics[topicName]
     });
 
   }else{

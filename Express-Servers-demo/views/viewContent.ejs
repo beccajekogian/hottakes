@@ -9,8 +9,11 @@
     <th> Number of posts: </th>
   </tr>
   <%for(let i = 0; i<topics.length; i++){%>
+    <tr>
     <td> <a href="/topic/<%=topics[i]%>"><%=topics[i]%></a> </td>
+    <td> <%=topics[i].topicName%> </td>
     <td> <%=topics[i].topicNumber%> </td>
+    </tr>
   <%}%>
 </table>
 
