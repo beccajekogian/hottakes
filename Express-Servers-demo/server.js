@@ -40,6 +40,18 @@ app.get('/viewContent', function(request, response) {
 
   let sortTopics = posts["topics"]["sortedTopics"];
 
+  let topicsList = posts['topics'];
+  for (post in posts){
+    let postTopic = post['topic'];
+    if (topicsList.hasOwnProperty(postTopic)){ //if the topic already exists
+      topicsList[postTopic]["topicNumber"] = parseInt(topicsList[postTopic]["topicNumber"])+1; //increase the count of posts under that topic
+    } else{ //if the topic doesn't exist yet in topicsList
+      topicsList[postTopic]["topicName"] = postTopic;
+      topicsList[postTopic]["topicNumber"] = 1;
+      sortTopics.push(topicsList[postTopic]);
+    }
+  }
+
   sortTopics.sort(function(a, b) {
     return parseFloat(a.topicNumber)-parseFloat(b.topicNumber);
   });
@@ -65,7 +77,7 @@ app.get('/post/:postID', function(request, response) {
 
     response.status(200);
     response.setHeader('Content-Type', 'text/html')
-    response.render("opponentDetails",{
+    response.render("postDetails",{
       post: posts[postID]
     });
   }else{
@@ -86,35 +98,20 @@ app.get('/postCreate', function(request, response) {
 //this should be good
 app.post('/postCreate', function(request, response) {
     let postID = uuid.v4();
-    let postPhoto = request.body.postPhoto;
-    let postTopic = request.body.postID.topic;
-    let postContent = request.body.postID.content;
-    let postTitle = request.body.postID.title;
+    let postContent = request.body.postContent;
+    let postTopic = request.body.postTopic;
+    let postTitle = request.body.postTitle;
+
     if(postID&&postTopic&&postContent&&postTitle){
       let posts = JSON.parse(fs.readFileSync('data/posts.json'));
       let newPost = {
         "postID": postID,
-        "topic": postTopic,
         "title": postTitle,
+        "topic": postTopic,
         "content": postContent,
       }
+
       posts[postID] = newPost;
-
-      let topicsList = posts["topics"];
-      for (let post in posts){
-        //let postTopic = post['topic'].toLowerCase().trim();
-        if (topicsList.hasOwnProperty(postTopic)){
-          //if the topic already exists
-          topicsList[postTopic]["topicNumber"] = parseInt(topicsList[postTopic]) + 1; //increase the count of posts under that topic
-        } else{
-          //if the topic doesn't exist yet in topicsList
-          topicsList[postTopic]["topicName"] = postTopic;
-          topicsList[postTopic]["topicNumber"] = 1;
-          let sortTopics = posts["topics"]["sortedTopics"];
-          sortTopics.push(topicsList[postTopic]);
-          posts["topics"]["sortedTopics"] = sortTopics;
-        }
-
 
       fs.writeFileSync('data/posts.json', JSON.stringify(posts));
 
@@ -142,7 +139,8 @@ app.get('/topic/:topicName', function(request, response) {
 
     response.status(200);
     response.setHeader('Content-Type', 'text/html')
-    response.render("topicDetails",{
+    response.render("topicDetails", {
+      data: posts,
       topic: posts["topics"][topicName]
     });
 

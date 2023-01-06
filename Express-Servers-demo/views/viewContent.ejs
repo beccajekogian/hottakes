@@ -1,4 +1,4 @@
-<%- include('partials/header', {title:"Post Details"}) -%>
+<%- include('partials/header', {title:"Hot Takes: Trending Topics"}) -%>
 
 <h2>Top Topics Ranked</h2>
 <table>
@@ -6,17 +6,11 @@
     <th>
       Topic
     </th>
-    <th>
-      number of posts
-    </th>
+    <th> Number of posts: </th>
   </tr>
   <%for(let i = 0; i<topics.length; i++){%>
-  <th>
-    <a href="/topic/<%=topics[i][0]%>"><%=topics[i][0]%></a>
-  </th>
-  <th>
-    <%=topics[i][1]%>
-  </th>
+    <td> <a href="/topic/<%=topics[i]%>"><%=topics[i]%></a> </td>
+    <td> <%=topics[i].topicNumber%> </td>
   <%}%>
 </table>
 

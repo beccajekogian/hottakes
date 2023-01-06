@@ -141,7 +141,7 @@ app.post('/opponentCreate', function(request, response) {
       let newOpponent={
         "name": opponentName,
         "photo": opponentPhoto,
-        "win":0,
+        "win": 0,
         "lose": 0,
         "tie": 0,
       }

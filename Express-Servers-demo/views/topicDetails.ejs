@@ -1,25 +1,17 @@
-<%- include('partials/header', {title:"Opponent Details- P, R, S"}) -%>
+<%- include('partials/header', {title:"topic details"}) -%>
 
 <h2>Topic: <%=topic.topicName%></h2>
 
 
 <table>
   <tr>
-    <th>
-      Post Title
-    </th>
-    <th>
-      Post Content
-    </th>
-
-    <%for(let post in posts){%>
-      <% if (post.topic == topic.topicName){%>
-      <th>
-        <a href="/post/<%= post.postID %>"><%=post.title%></a>
-      </th>
-      <th>
-        <%=post.content%>
-      </th>
+    <th>Post Title</th>
+    <th>Post Content</th>
+  </tr>
+    <%for(post in data){%>
+      <% if (post.hasOwnProperty('postID') && post.topic === topic.topicName){%>
+      <th> <a href="/post/<%=post.postID %>"><%=post.title%></a> </th>
+      <th> <%=post.content%></th>
       <%}%>
     <%}%>
 </table>

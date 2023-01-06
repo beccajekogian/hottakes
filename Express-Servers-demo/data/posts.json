@@ -1,37 +1,42 @@
-{posts: {
-  postID: {
-    "postID": 5,
+{
+  "one": {
+    "postID": "one",
     "title": "hi",
     "topic": "something",
     "content": "how was your day?"
+  },
+  "two": {
+    "postID": "two",
+    "title": "wow",
+    "topic": "bye",
+    "content": "so fun?"
+  },
+  "three": {
+    "postID": "three",
+    "title": "wow",
+    "topic": "hi",
+    "content": "yummy"
+  },
+  "four": {
+    "postID": "four",
+    "title": "yess",
+    "topic": "hi",
+    "content": "fun"
+  },
 
+  "topics": {
+    "sortedTopics": ["something", "hi", "bye"],
+    "hi": {
+      "topicName": "hi",
+      "topicNumber": 2
+    },
+    "something": {
+      "topicName": "something",
+      "topicNumber": 1
+    },
+    "bye": {
+      "topicName": "bye",
+      "topicNumber": 1
+    }
   }
-  topics: {
-    "add name": {
-      "topicName": ,
-      "topicNumber": ,
-    }
-    sortedTopics: [topic, topic]
-
-    }
-
 }
-
-
-
-}
-
-{"Mario":{
-  "name":"Mario",
-  "photo":"https://upload.wikimedia.org/wikipedia/en/a/a9/MarioNSMBUDeluxe.png",
-  "win":27,
-  "lose":11,
-  "tie":1
-},
-"Luigi":{
-  "name":"Luigi",
-  "photo":"https://upload.wikimedia.org/wikipedia/en/7/73/Luigi_NSMBUDX.png",
-  "win":11,
-  "lose":5,
-  "tie":1
-},
