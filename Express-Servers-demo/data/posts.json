@@ -11,7 +11,8 @@
       "topicName": ,
       "topicNumber": ,
     }
-    sortedTopics: [ [topic, number], [topic, number]]
+    sortedTopics: [topic, topic]
+
     }
 
 }
