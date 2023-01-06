@@ -15,7 +15,7 @@
     <%for(let post in posts){%>
       <% if (post.topic == topic.topicName){%>
       <th>
-        <a href="/post/<%=post.postID%>"><%=post.title%></a>
+        <a href="/post/<%= post.postID %>"><%=post.title%></a>
       </th>
       <th>
         <%=post.content%>

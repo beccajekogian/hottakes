@@ -136,14 +136,14 @@ app.get('/topic/:topicName', function(request, response) {
   let posts = JSON.parse(fs.readFileSync('data/posts.json'));
 
   // using dynamic routes to specify resource request information
-  let topic = request.params.topicName;
+  let topicName = request.params.topicName;
 
-  if(topics[topicName]){
+  if(posts["topics"][topicName]){
 
     response.status(200);
     response.setHeader('Content-Type', 'text/html')
-    response.render("opponentDetails",{
-      topic: topics[topicName]
+    response.render("topicDetails",{
+      topic: posts["topics"][topicName]
     });
 
   }else{
