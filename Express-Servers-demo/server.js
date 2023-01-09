@@ -42,12 +42,15 @@ app.get('/viewContent', function(request, response) {
 
   console.log(posts);
 
-  for (post in posts){
+  for (topic in topics){
+    topics[topic]["topicNumber"] = 0;
+  }
 
+  for (post in posts){
     let postTopic = posts[post].topic;
-    sortTopics.push(postTopic);
+
     if (topics.hasOwnProperty(postTopic)){ //if the topic already exists
-      topics[postTopic]["topicNumber"]++
+      topics[postTopic]["topicNumber"]++;
       // = parseInt(topics[postTopic]["topicNumber"])+1; //increase the count of posts under that topic
     } else { //if the topic doesn't exist yet in topicsList
       let newTopic = {
@@ -56,11 +59,15 @@ app.get('/viewContent', function(request, response) {
       }
       topics[postTopic] = newTopic;
     }
+    if (!sortTopics.includes(postTopic)) sortTopics.push(postTopic);
    }
 
   sortTopics.sort(function(a, b) {
-    return parseFloat(a.topicNumber)-parseFloat(b.topicNumber);
+    console.log(topics[a].topicNumber + " b: " + topics[b].topicNumber);
+    return parseFloat(topics[b].topicNumber)-parseFloat(topics[a].topicNumber);
   });
+
+  console.log(sortTopics);
   fs.writeFileSync('data/topics.json', JSON.stringify(topics));
 
   //posts['topics']["sortedTopics"] = sortTopics;
@@ -68,7 +75,8 @@ app.get('/viewContent', function(request, response) {
   response.status(200);
   response.setHeader('Content-Type', 'text/html')
   response.render("viewContent",{
-    topics: sortTopics
+    sortedTopics: sortTopics,
+    topics: topics
   });
 });
 
@@ -117,10 +125,27 @@ app.post('/postCreate', function(request, response) {
         "topic": postTopic,
         "content": postContent,
       }
-
       posts[postID] = newPost;
 
       fs.writeFileSync('data/posts.json', JSON.stringify(posts));
+
+      // if (topics.hasOwnProperty(postTopic)){ //if the topic already exists
+      //     topics[postTopic]["topicNumber"]++; //increase the count of posts under that topic
+      // } else { //if the topic doesn't exist yet, make a new object for the topic
+      //     let newTopic = {
+      //       "topicName": postTopic,
+      //       "topicNumber": 1
+      //     }
+      //   topics[postTopic] = newTopic;
+      // }
+      //
+      //
+      // sortTopics.sort(function(a, b) {
+      //   return parseFloat(a.topicNumber)-parseFloat(b.topicNumber);
+      // });
+      //
+      // fs.writeFileSync('data/topics.json', JSON.stringify(topics));
+
 
       response.status(200);
       response.setHeader('Content-Type', 'text/html')
@@ -147,7 +172,7 @@ app.get('/topic/:topicName', function(request, response) {
     response.status(200);
     response.setHeader('Content-Type', 'text/html')
     response.render("topicDetails", {
-      data: posts,
+      posts: posts,
       topic: topics[topicName]
     });
 

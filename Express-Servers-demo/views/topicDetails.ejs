@@ -8,10 +8,12 @@
     <th>Post Title</th>
     <th>Post Content</th>
   </tr>
-    <%for(post in data){%>
-      <% if (post.hasOwnProperty('postID') && post.topic === topic.topicName){%>
-      <th> <a href="/post/<%=post.postID %>"><%=post.title%></a> </th>
-      <th> <%=post.content%></th>
+    <%for(post in posts){%>
+      <% if (posts[post]['topic'] === topic.topicName){%>
+      <tr>
+      <td> <a href="/post/<%=posts[post]['postID'] %>"><%=posts[post]['title']%></a> </td>
+      <td> <%=posts[post]['content']%></td>
+      </tr>
       <%}%>
     <%}%>
 </table>

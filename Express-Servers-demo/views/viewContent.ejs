@@ -8,11 +8,12 @@
     </th>
     <th> Number of posts: </th>
   </tr>
-  <%for(let i = 0; i<topics.length; i++){%>
+  <%for(let i = 0; i<sortedTopics.length; i++){%>
     <tr>
-    <td> <a href="/topic/<%=topics[i]%>"><%=topics[i]%></a> </td>
-    <td> <%=topics[i].topicName%> </td>
-    <td> <%=topics[i].topicNumber%> </td>
+
+
+    <td> <a href="/topic/<%=topics[sortedTopics[i]]["topicName"]%>"><%=topics[sortedTopics[i]]["topicName"]%></a> </td>
+    <td> <%=topics[sortedTopics[i]]["topicNumber"]%> </td>
     </tr>
   <%}%>
 </table>
