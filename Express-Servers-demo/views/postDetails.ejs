@@ -4,5 +4,23 @@
 <h2>Topic - <%= post.topic%> </h2>
 <p1>Content - <%=post.content%> </p1>
 
+<table>
+  <tr>
+    <th>Comment Subject</th>
+    <th>Comment Content</th>
+  </tr>
+
+
+  <%for(comment in comments){%>
+    <% if (comments[comment]['postID'] === post.postID){%>
+    <tr>
+    <td> <%=comments[comment]['subject']%></td>
+    <td> <%=comments[comment]['content']%></td>
+    </tr>
+    <%}%>
+  <%}%>
+</table>
+
+<a href="/commentCreate">Click to see what's on other people's minds</a>
 
 <%- include('partials/footer') -%>

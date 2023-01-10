@@ -82,18 +82,18 @@ app.get('/viewContent', function(request, response) {
 
 app.get('/post/:postID', function(request, response) {
   let posts = JSON.parse(fs.readFileSync('data/posts.json'));
+  let comments = JSON.parse(fs.readFileSync('data/comments.json'));
 
   // using dynamic routes to specify resource request information
   let postID = request.params.postID;
 
   if(posts[postID]){
-    // opponents[opponentName].win_percent = (opponents[opponentName].win/parseFloat(opponents[opponentName].win+opponents[opponentName].lose+opponents[opponentName].tie) * 100).toFixed(2);
-    // if(opponents[opponentName].win_percent=="NaN") opponents[opponentName].win_percent=0;
 
     response.status(200);
     response.setHeader('Content-Type', 'text/html')
     response.render("postDetails",{
-      post: posts[postID]
+      post: posts[postID],
+      comments: comments
     });
   }else{
     response.status(404);
@@ -170,6 +170,45 @@ app.post('/topicCreate', function(request, response) {
       response.status(200);
       response.setHeader('Content-Type', 'text/html')
       response.redirect("/topic/"+topicName);
+    }
+});
+
+
+app.get('/commentCreate/:postID', function(request, response) {
+    response.status(200);
+    response.setHeader('Content-Type', 'text/html')
+    response.render("commentCreate");
+});
+
+//this should be good
+app.post('/commentCreate/:postID', function(request, response) {
+    let commentSubject = request.body.commentSubject;
+    let commentContent = request.body.commentContent;
+    let commentPostID = request.params.postID; //  find how to get the postID from before
+    let commentID = uuid.v4();
+
+    let comments = JSON.parse(fs.readFileSync('data/comments.json'));
+
+    if (commentID&&commentPostID&&commentContent&&commentSubject){ //if the topic already exists, unable to make a new topic
+     //if the topic doesn't exist yet, make a new object for the topic
+        let newComment = {
+          "commentID": commentID,
+          "commentPostID": commentPostID,
+          "commentSubject": commentSubject,
+          "commentContent": commentContent
+        }
+      comments[commentID] = newComment;
+      fs.writeFileSync('data/comments.json', JSON.stringify(comments));
+
+      response.status(200);
+      response.setHeader('Content-Type', 'text/html')
+      response.redirect("/post/"+commentPostID);
+    } else{
+      response.status(400);
+      response.setHeader('Content-Type', 'text/html')
+      response.render("error", {
+        "errorCode":"400"
+      });
     }
 });
 
