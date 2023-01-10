@@ -1,8 +1,8 @@
 {
   "commentID": {
-    "commentID": ,
-    "postID": ,
-    "commentSubject": , 
-    "commentContent"
+    "commentID": "comment",
+    "postID": "one",
+    "commentSubject": "i liked your post",
+    "commentContent": "your post is amazing"
   }
 }

@@ -10,7 +10,6 @@
     <th>Comment Content</th>
   </tr>
 
-
   <%for(comment in comments){%>
     <% if (comments[comment]['postID'] === post.postID){%>
     <tr>
@@ -21,6 +20,23 @@
   <%}%>
 </table>
 
-<a href="/commentCreate">Click to see what's on other people's minds</a>
+
+<h2>Create a New Comment for the post <%=post.postTitle%></h2>
+
+
+<form action="/commentCreate" method="POST">
+
+  <input type="hidden" id="commentPostID" name="commentPostID" value=<%=post.postID%>>
+
+  <label for="title">Comment subject: </label>
+  <input type="text" id="commentSubject" name="commentSubject" value=""><br>
+
+  <label for="content">Comment: </label>
+  <input type="text" id="commentContent" name="commentContent" value=""><br>
+
+  <br><br>
+  <input type="submit" value="Create new comment!">
+
+</form>
 
 <%- include('partials/footer') -%>
