@@ -10,10 +10,8 @@
   </tr>
   <%for(let i = 0; i<sortedTopics.length; i++){%>
     <tr>
-
-
-    <td> <a href="/topic/<%=topics[sortedTopics[i]]["topicName"]%>"><%=topics[sortedTopics[i]]["topicName"]%></a> </td>
-    <td> <%=topics[sortedTopics[i]]["topicNumber"]%> </td>
+    <td> <a href="/topic/<%=topics[sortedTopics[i]]['topicName']%>"><%=topics[sortedTopics[i]]['topicName']%></a> </td>
+    <td> <%=topics[sortedTopics[i]]['topicNumber']%> </td>
     </tr>
   <%}%>
 </table>
