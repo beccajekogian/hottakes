@@ -129,24 +129,6 @@ app.post('/postCreate', function(request, response) {
 
       fs.writeFileSync('data/posts.json', JSON.stringify(posts));
 
-      // if (topics.hasOwnProperty(postTopic)){ //if the topic already exists
-      //     topics[postTopic]["topicNumber"]++; //increase the count of posts under that topic
-      // } else { //if the topic doesn't exist yet, make a new object for the topic
-      //     let newTopic = {
-      //       "topicName": postTopic,
-      //       "topicNumber": 1
-      //     }
-      //   topics[postTopic] = newTopic;
-      // }
-      //
-      //
-      // sortTopics.sort(function(a, b) {
-      //   return parseFloat(a.topicNumber)-parseFloat(b.topicNumber);
-      // });
-      //
-      // fs.writeFileSync('data/topics.json', JSON.stringify(topics));
-
-
       response.status(200);
       response.setHeader('Content-Type', 'text/html')
       response.redirect("/post/"+postID);
@@ -157,6 +139,37 @@ app.post('/postCreate', function(request, response) {
       response.render("error", {
         "errorCode":"400"
       });
+    }
+});
+
+
+app.get('/topicCreate', function(request, response) {
+    response.status(200);
+    response.setHeader('Content-Type', 'text/html')
+    response.render("topicCreate");
+});
+
+//this should be good
+app.post('/topicCreate', function(request, response) {
+    let topicName = request.body.topic;
+    let topics = JSON.parse(fs.readFileSync('data/posts.json'));
+
+    if (topics.hasOwnProperty(topicName)){ //if the topic already exists, unable to make a new topic
+      response.status(400);
+      response.setHeader('Content-Type', 'text/html')
+      response.render("error", {
+        "errorCode":"400"
+      });
+    } else { //if the topic doesn't exist yet, make a new object for the topic
+        let newTopic = {
+          "topicName": topicName,
+          "topicNumber": 0
+        }
+      topics[topicName] = newTopic;
+      fs.writeFileSync('data/topics.json', JSON.stringify(topics));
+      response.status(200);
+      response.setHeader('Content-Type', 'text/html')
+      response.redirect("/topic/"+topicName);
     }
 });
 

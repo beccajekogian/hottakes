@@ -1,0 +1,15 @@
+<%- include('partials/header', {title:"Create Topic"}) -%>
+
+<h2>Create a New Post!</h2>
+
+<form action="/topicCreate" method="POST">
+
+  <label for="topic">Topic:</label>
+  <input type="text" id="topic" name="topic" value=""><br>
+
+  <br><br>
+  <input type="submit" value="Create new topic!">
+
+</form>
+
+<%- include('partials/footer') -%>
