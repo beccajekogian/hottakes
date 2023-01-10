@@ -11,10 +11,10 @@
   </tr>
 
   <%for(comment in comments){%>
-    <% if (comments[comment]['postID'] === post.postID){%>
+    <% if (comments[comment]['commentPostID'] === post['postID']){%>
     <tr>
-    <td> <%=comments[comment]['subject']%></td>
-    <td> <%=comments[comment]['content']%></td>
+    <td> <%=comments[comment]['commentSubject']%></td>
+    <td> <%=comments[comment]['commentContent']%></td>
     </tr>
     <%}%>
   <%}%>
@@ -26,7 +26,7 @@
 
 <form action="/commentCreate" method="POST">
 
-  <input type="hidden" id="commentPostID" name="commentPostID" value=<%=post.postID%>>
+  <input type="hidden" id="commentPostID" name="commentPostID" value = "<%=post.postID%>">
 
   <label for="title">Comment subject: </label>
   <input type="text" id="commentSubject" name="commentSubject" value=""><br>

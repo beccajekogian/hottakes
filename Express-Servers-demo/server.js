@@ -67,10 +67,12 @@ app.get('/viewContent', function(request, response) {
     return parseFloat(topics[b].topicNumber)-parseFloat(topics[a].topicNumber);
   });
 
+  // for (topic in topics){
+  //   if (topics[topic]['topicNumber'] === 0 && !sortTopics.includes(topics[topic]['topicName'])) sortTopics.push(topics[topic]['topicName']);
+  // }
+
   console.log(sortTopics);
   fs.writeFileSync('data/topics.json', JSON.stringify(topics));
-
-  //posts['topics']["sortedTopics"] = sortTopics;
 
   response.status(200);
   response.setHeader('Content-Type', 'text/html')
@@ -145,64 +147,56 @@ app.post('/postCreate', function(request, response) {
     }
 });
 
-
-app.get('/topicCreate', function(request, response) {
-    response.status(200);
-    response.setHeader('Content-Type', 'text/html')
-    response.render("topicCreate");
-});
-
-//this should be good
-app.post('/topicCreate', function(request, response) {
-    let topicName = request.body.topic;
-    let topics = JSON.parse(fs.readFileSync('data/topics.json'));
-
-    if (topics.hasOwnProperty(topicName)){ //if the topic already exists, unable to make a new topic
-      response.status(400);
-      response.setHeader('Content-Type', 'text/html')
-      response.render("error", {
-        "errorCode":"400"
-      });
-    } else { //if the topic doesn't exist yet, make a new object for the topic
-        let newTopic = {
-          "topicName": topicName,
-          "topicNumber": 0
-        }
-      topics[topicName] = newTopic;
-      fs.writeFileSync('data/topics.json', JSON.stringify(topics));
-      response.status(200);
-      response.setHeader('Content-Type', 'text/html')
-      response.redirect("/topic/"+topicName);
-    }
-});
+//
+// app.get('/topicCreate', function(request, response) {
+//     response.status(200);
+//     response.setHeader('Content-Type', 'text/html')
+//     response.render("topicCreate");
+// });
+//
+// //this should be good
+// app.post('/topicCreate', function(request, response) {
+//     let topicName = request.body.topic;
+//     let topics = JSON.parse(fs.readFileSync('data/topics.json'));
+//
+//     if (topics.hasOwnProperty(topicName)){ //if the topic already exists, unable to make a new topic
+//       response.status(400);
+//       response.setHeader('Content-Type', 'text/html')
+//       response.render("error", {
+//         "errorCode":"400"
+//       });
+//     } else { //if the topic doesn't exist yet, make a new object for the topic
+//         let newTopic = {
+//           "topicName": topicName,
+//           "topicNumber": 0
+//         }
+//       topics[topicName] = newTopic;
+//       fs.writeFileSync('data/topics.json', JSON.stringify(topics));
+//       response.status(200);
+//       response.setHeader('Content-Type', 'text/html')
+//       response.redirect("/topic/"+topicName);
+//     }
+// });
 
 app.get('/commentCreate', function(request, response) {
-  let topics = JSON.parse(fs.readFileSync('data/topics.json'));
-  let posts = JSON.parse(fs.readFileSync('data/posts.json'));
-
-  let postID = request.params.postID;
 
     response.status(200);
     response.setHeader('Content-Type', 'text/html')
-    response.render("/commentCreate");
-    // response.render("/commentCreate", {
-    //   topic: topics,
-    //   post: posts[postID]
-    // });
+    response.render("postDetails");
+
 });
 
 app.post('/commentCreate', function(request, response) {
     let commentSubject = request.body.commentSubject;
     let commentContent = request.body.commentContent;
-    let commentPostID = request.body.commentpostID; //  find how to get the postID from before
-    console.log(commentPostID);
+    let commentPostID = request.body.commentPostID; //  find how to get the postID from before
+    console.log("ID"+commentPostID);
     let commentID = uuid.v4();
 
     let comments = JSON.parse(fs.readFileSync('data/comments.json'));
     let posts = JSON.parse(fs.readFileSync('data/posts.json'));
 
     if (commentID&&commentPostID&&commentContent&&commentSubject){ //if the topic already exists, unable to make a new topic
-     //if the topic doesn't exist yet, make a new object for the topic
         let newComment = {
           "commentID": commentID,
           "commentPostID": commentPostID,
@@ -210,6 +204,7 @@ app.post('/commentCreate', function(request, response) {
           "commentContent": commentContent
         }
       comments[commentID] = newComment;
+
       fs.writeFileSync('data/comments.json', JSON.stringify(comments));
 
       response.status(200);
