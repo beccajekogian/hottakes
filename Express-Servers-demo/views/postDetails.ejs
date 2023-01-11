@@ -21,7 +21,6 @@
                         <p class="mb-1">
                           <%=post.title%> <span class="small"><%= post.topic%></span>
                         </p>
-                      </div>
                       <p class="small mb-0">
                         <%=post.content%>
                       </p>
@@ -63,42 +62,23 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h2>Create a New Comment for the post <%=post.postTitle%></h2>
+<h2>Comment on this post:</h2>
 
 
 <form action="/commentCreate" method="POST">
-
-  <input type="hidden" id="commentPostID" name="commentPostID" value = "<%=post.postID%>">
-
-  <label for="title">Comment subject: </label>
-  <input type="text" id="commentSubject" name="commentSubject" value=""><br>
-
-  <label for="content">Comment: </label>
-  <input type="text" id="commentContent" name="commentContent" value=""><br>
-
-  <br><br>
-  <input type="submit" value="Create new comment!">
+  <div class="form-group">
+    <label for="title">Comment Subject:</label>
+    <input type="text" class="form-control" id="title" aria-describedby="emailHelp" placeholder="Post Content" name="postTitle" value="">
+  </div>
+  <div class="form-group">
+    <label for="topic">Comment:</label>
+    <input type="text" class="form-control" id="topic" placeholder="Message" name="postTopic" value="">
+  </div>
+  <button type="submit" class="btn btn-primary" value="Create new comment!">Post Comment</button>
 
 </form>
+
+
+
 
 <%- include('partials/footer') -%>
