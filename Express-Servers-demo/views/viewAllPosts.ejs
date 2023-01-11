@@ -1,0 +1,19 @@
+<%- include('partials/header', {title:"Hot Takes: View All Posts"}) -%>
+
+<h2>All posts ranked by number of comments</h2>
+<table>
+  <tr>
+    <th> Post Title:  </th>
+    <th> Post content: </th>
+    <th> Number of Comments: </th>
+  </tr>
+  <%for(let i = 0; i<sortedPosts.length; i++){%>
+    <tr>
+    <td> <a href="/post/<%=sortedPosts[i]['postID']%>"><%=sortedPosts[i]['postTitle']%></a> </td>
+    <td> <%=sortedPosts[i]['postContent']%> </td>
+    <td> <%=sortedPosts[i]['commentNumber']%> </td>
+    </tr>
+  <%}%>
+</table>
+
+  <%- include('partials/footer') -%>

@@ -82,6 +82,59 @@ app.get('/viewContent', function(request, response) {
   });
 });
 
+
+app.get('/viewAllPosts', function(request, response) {
+  let posts = JSON.parse(fs.readFileSync('data/posts.json'));
+  let comments = JSON.parse(fs.readFileSync('data/comments.json'));
+
+  let sortPosts = [];
+
+  for (post in posts){
+    posts[post]['commentNumber'] = 0;
+    console.log(posts[post]['commentNumber']);
+  }
+
+  fs.writeFileSync('data/posts.json', JSON.stringify(posts));
+  let postsComments = JSON.parse(fs.readFileSync('data/posts.json'));
+
+  for (post in postsComments){
+
+    console.log(postsComments[post]['commentNumber'], "hi ");
+
+    for(comment in comments){
+      if (comments[comment]['commentPostID'] === postsComments[post]['postID']){
+        postsComments[post]['commentNumber'] = postsComments[post]['commentNumber'] + 1;
+      }
+    }
+    sortPosts.push(postsComments[post]);
+  }
+
+
+  fs.writeFileSync('data/posts.json', JSON.stringify(postsComments));
+
+ let postsWithComments = JSON.parse(fs.readFileSync('data/posts.json'));
+
+  sortPosts.sort(function(a, b) {
+
+    console.log(b['commentNumber'], "no ");
+    return parseFloat(b['commentNumber'])-parseFloat(a['commentNumber']);
+
+  });
+
+  console.log(sortPosts);
+  console.log(postsWithComments);
+
+  fs.writeFileSync('data/posts.json', JSON.stringify(postsWithComments));
+
+  response.status(200);
+  response.setHeader('Content-Type', 'text/html')
+  response.render("viewAllPosts",{
+    sortedPosts: sortPosts,
+    posts: postsWithComments,
+    comments: comments
+  });
+});
+
 app.get('/post/:postID', function(request, response) {
   let posts = JSON.parse(fs.readFileSync('data/posts.json'));
   let comments = JSON.parse(fs.readFileSync('data/comments.json'));

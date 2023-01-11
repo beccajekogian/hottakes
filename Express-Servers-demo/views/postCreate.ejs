@@ -10,18 +10,8 @@
   <label for="content">What's on your mind: </label>
   <input type="text" id="content" name="postContent" value=""><br>
 
-  <!-- <label for="topic">Topic:</label>
-  <input type="text" id="topic" name="postTopic" value=""><br> -->
-
-
-
-  <label for="topic">Choose a topic:</label>
-  <select id="topic" name="postTopic">
-    <%for(topic in topics){%>
-      <option value="<%=topics[topic]['topicName']%>"><%=topics[topic]['topicName']%></option>
-    <%}%>
-
-  </select>
+  <label for="topic">Topic:</label>
+  <input type="text" id="topic" name="postTopic" value=""><br>
 
   <br><br>
   <input type="submit" value="Create new post!">
