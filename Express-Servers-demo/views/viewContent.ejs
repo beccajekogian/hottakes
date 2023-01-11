@@ -1,19 +1,40 @@
 <%- include('partials/header', {title:"Hot Takes: Trending Topics"}) -%>
 
-<h2>Top Topics Ranked</h2>
-<table>
-  <tr>
-    <th>
-      Topic
-    </th>
-    <th> Number of posts: </th>
-  </tr>
-  <%for(let i = 0; i<sortedTopics.length; i++){%>
+
+
+
+
+
+<!-- Header-->
+<header class="py-5">
+    <div class="container px-lg-5">
+        <div class="p-4 p-lg-5 bg-light rounded-3 text-center">
+            <div class="m-4 m-lg-5">
+                <h1 class="display-5 fw-bold">Top Topics Ranked</h1>
+                <p class="fs-4">Here you can see a list of all the hot topics!</p>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+<table class="table">
+  <thead>
     <tr>
-    <td> <a href="/topic/<%=topics[sortedTopics[i]]['topicName']%>"><%=topics[sortedTopics[i]]['topicName']%></a> </td>
-    <td> <%=topics[sortedTopics[i]]['topicNumber']%> </td>
+      <th scope="col">Topic</th>
+      <th scope="col">Number of Posts</th>
     </tr>
-  <%}%>
+  </thead>
+  <tbody>
+    <%for(let i = 0; i<sortedTopics.length; i++){%>
+    <tr>
+        <td> <a href="/topic/<%=topics[sortedTopics[i]]["topicName"]%>"><%=topics[sortedTopics[i]]["topicName"]%></a> </td>
+        <td> <%=topics[sortedTopics[i]]["topicNumber"]%> </td>
+    </tr>
+    <%}%>
+  </tbody>
 </table>
+
+
 
   <%- include('partials/footer') -%>

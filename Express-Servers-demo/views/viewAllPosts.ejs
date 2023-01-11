@@ -1,19 +1,35 @@
 <%- include('partials/header', {title:"Hot Takes: View All Posts"}) -%>
 
-<h2>All posts ranked by number of comments</h2>
-<table>
-  <tr>
-    <th> Post Title:  </th>
-    <th> Post content: </th>
-    <th> Number of Comments: </th>
-  </tr>
-  <%for(let i = 0; i<sortedPosts.length; i++){%>
+<header class="py-5">
+    <div class="container px-lg-5">
+        <div class="p-4 p-lg-5 bg-light rounded-3 text-center">
+            <div class="m-4 m-lg-5">
+                <h1 class="display-5 fw-bold">All posts ranked by number of comments:</h1>
+                <p class="fs-4">Here you can see a list of all the trending posts!</p>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+<table class="table">
+  <thead>
     <tr>
-    <td> <a href="/post/<%=sortedPosts[i]['postID']%>"><%=sortedPosts[i]['title']%></a> </td>
-    <td> <%=sortedPosts[i]['content']%> </td>
-    <td> <%=sortedPosts[i]['commentNumber']%> </td>
+      <th scope="col">Post Title:</th>
+      <th scope="col">Post Content:</th>
+      <th scope="col">Number of Comments:</th>
     </tr>
-  <%}%>
+  </thead>
+
+  <tbody>
+    <%for(let i = 0; i<sortedPosts.length; i++){%>
+    <tr>
+      <td> <a href="/post/<%=sortedPosts[i]['postID']%>"><%=sortedPosts[i]['title']%></a> </td>
+      <td> <%=sortedPosts[i]['content']%> </td>
+      <td> <%=sortedPosts[i]['commentNumber']%> </td>
+    </tr>
+    <%}%>
+  </tbody>
 </table>
 
   <%- include('partials/footer') -%>

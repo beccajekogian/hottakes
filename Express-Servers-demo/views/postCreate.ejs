@@ -3,19 +3,23 @@
 <h2>Create a New Post!</h2>
 
 <form action="/postCreate" method="POST">
+  <div class="form-group">
+    <label for="title">Post title:</label>
+    <input type="text" class="form-control" id="title" aria-describedby="emailHelp" placeholder="Post Content" name="postTitle" value="">
+    <small id="emailHelp" class="form-text text-muted">Give your post a unique title.</small>
+  </div>
+  <div class="form-group">
+    <label for="topic">Topic:</label>
+    <input type="text" class="form-control" id="topic" placeholder="Post Topic" name="postTopic" value="">
+  </div>
+  <div class="form-group">
+    <label for="content">What's on your mind?</label>
+    <input type="text" class="form-control" id="content" placeholder="Message" name="postContent" value="">
+  </div>
 
-  <label for="title">Post title: </label>
-  <input type="text" id="title" name="postTitle" value=""><br>
-
-  <label for="content">What's on your mind: </label>
-  <input type="text" id="content" name="postContent" value=""><br>
-
-  <label for="topic">Topic:</label>
-  <input type="text" id="topic" name="postTopic" value=""><br>
-
-  <br><br>
-  <input type="submit" value="Create new post!">
-
+  <button type="submit" class="btn btn-primary">Create Post</button>
 </form>
+
+
 
 <%- include('partials/footer') -%>
