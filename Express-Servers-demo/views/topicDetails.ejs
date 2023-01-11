@@ -1,20 +1,43 @@
 <%- include('partials/header', {title:"topic details"}) -%>
 
-<h2>Topic: <%=topic.topicName%></h2>
 
-<table>
-  <tr>
-    <th>Post Title</th>
-    <th>Post Content</th>
-  </tr>
+
+
+<header class="py-5">
+    <div class="container px-lg-5">
+        <div class="p-4 p-lg-5 bg-light rounded-3 text-center">
+            <div class="m-4 m-lg-5">
+                <h1 class="display-5 fw-bold">Topic: <%=topic.topicName.toUpperCase()%></h1>
+                <p class="fs-4">Here you can see all posts related to "<%=topic.topicName%>"</p>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Post Title:</th>
+      <th scope="col">Post Content:</th>
+    </tr>
+  </thead>
+
+  <tbody>
     <%for(post in posts){%>
       <% if (posts[post]['topic'] === topic.topicName){%>
-      <tr>
+    <tr>
       <td> <a href="/post/<%=posts[post]['postID'] %>"><%=posts[post]['title']%></a> </td>
       <td> <%=posts[post]['content']%></td>
-      </tr>
-      <%}%>
+    </tr>
     <%}%>
+    <%}%>
+  </tbody>
 </table>
+
+
+
+
+
 
 <%- include('partials/footer') -%>

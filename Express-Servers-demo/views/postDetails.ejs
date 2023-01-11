@@ -1,64 +1,67 @@
 <%- include('partials/header', {title:"Post Details"}) -%>
 
 
-<section class="gradient-custom">
+
+
+
+
+
+
+
+
+
+
+<section style="background-color: #d5d6de;">
   <div class="container my-5 py-5">
     <div class="row d-flex justify-content-center">
-      <div class="col-md-12 col-lg-10 col-xl-8">
-        <div class="card">
+      <div class="col-md-12 col-lg-10">
+        <div class="card text-dark">
           <div class="card-body p-4">
-            <h4 class="text-center mb-4 pb-2">Discussion Section:</h4>
+            <h4 class="mb-0">Discussion Section</h4>
+            <p class="fw-light mb-4 pb-2">See the latest comments below:</p>
 
-            <div class="row">
-              <div class="col">
-                <div class="d-flex flex-start">
-                  <img class="rounded-circle shadow-1-strong me-3"
-                    src="https://cdn-icons-png.flaticon.com/512/634/634741.png" alt="avatar" width="65"
-                    height="65" />
-                  <div class="flex-grow-1 flex-shrink-1">
-                    <div>
-                      <div class="d-flex justify-content-between align-items-center">
-                        <p class="mb-1">
-                          <%=post.title%> <span class="small"><%= post.topic%></span>
-                        </p>
-                      </div>
-                      <p class="small mb-0">
-                        <%=post.content%>
-                      </p>
-                    </div>
-
-                    <div class="d-flex flex-start mt-4">
-                      <a class="me-3" href="#">
-                        <img class="rounded-circle shadow-1-strong"
-                          src="https://cdn-icons-png.flaticon.com/512/634/634741.png" alt="avatar"
-                          width="65" height="65" />
-                      </a>
-                      <div class="flex-grow-1 flex-shrink-1">
-                        <div>
-                          <div class="d-flex justify-content-between align-items-center">
-                            <p class="mb-1">
-                              <%for(comment in comments){%>
-                                <% if (comments[comment]['commentPostID'] === post['postID']){%>
-                               <span class="small"> <%=comments[comment]['commentSubject']%></span>
-                            </p>
-                          </div>
-                          <p class="small mb-0">
-                          <%=comments[comment]['commentContent']%>
-                            <%}%>
-                            <%}%>
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+            <div class="d-flex flex-start">
+              <img class="rounded-circle shadow-1-strong me-3"
+                src="https://cdn-icons-png.flaticon.com/512/634/634741.png" alt="avatar" width="60"
+                height="60" />
+              <div>
+                <h6 class="fw-bold mb-1"><%=post.title%></h6>
+                <div class="d-flex align-items-center mb-3">
+                  <p class="mb-0">
+                    <%= post.topic%>
+                  </p>
                 </div>
+                <p class="mb-0">
+                  <%=post.content%>
+                </p>
               </div>
             </div>
+          </div>
+
+          <hr class="my-0" />
+
+          <div class="card-body p-4">
+            <div class="d-flex flex-start">
+              <img class="rounded-circle shadow-1-strong me-3"
+                src="https://cdn-icons-png.flaticon.com/512/634/634741.png" alt="avatar" width="60"
+                height="60" />
+              <div>
+                <%for(comment in comments){%>
+                  <% if (comments[comment]['commentPostID'] === post['postID']){%>
+                <h6 class="fw-bold mb-1"><%=comments[comment]['commentSubject']%></h6>
+                <p class="mb-0">
+                  <%=comments[comment]['commentContent']%>
+                </p>
+                <%}%>
+                <%}%>
+              </div>
+            </div>
+          </div>
+
           </div>
         </div>
       </div>
     </div>
-  </div>
 </section>
 
 
@@ -83,22 +86,42 @@
 
 
 
-<h2>Create a New Comment for the post <%=post.postTitle%></h2>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h2>Comment on this post:</h2>
 
 
 <form action="/commentCreate" method="POST">
-
-  <input type="hidden" id="commentPostID" name="commentPostID" value = "<%=post.postID%>">
-
-  <label for="title">Comment subject: </label>
-  <input type="text" id="commentSubject" name="commentSubject" value=""><br>
-
-  <label for="content">Comment: </label>
-  <input type="text" id="commentContent" name="commentContent" value=""><br>
-
-  <br><br>
-  <input type="submit" value="Create new comment!">
+  <div class="form-group">
+    <label for="title">Comment Subject:</label>
+    <input type="text" class="form-control" id="title" aria-describedby="emailHelp" placeholder="Post Content" name="postTitle" value="">
+  </div>
+  <div class="form-group">
+    <label for="topic">Comment:</label>
+    <input type="text" class="form-control" id="topic" placeholder="Message" name="postTopic" value="">
+  </div>
+  <button type="submit" class="btn btn-primary" value="Create new comment!">Post Comment</button>
 
 </form>
+
+
+
 
 <%- include('partials/footer') -%>
