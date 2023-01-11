@@ -1,0 +1,22 @@
+<%- include('partials/header', {title:"Create Comment"}) -%>
+
+<h2>Create a New Comment for the post <%=post.postTitle%></h2>
+
+<form action="/commentCreate" method="POST">
+
+  <label for="title">Post title: </label>
+  <input type="text" id="title" name="postTitle" value=""><br>
+
+  <label for="content">What's on your mind: </label>
+  <input type="text" id="content" name="postContent" value=""><br>
+
+  <label for="topic">Topic:</label>
+  <input type="text" id="topic" name="postTopic" value=""><br>
+
+
+  <br><br>
+  <input type="submit" value="Create new post!">
+
+</form>
+
+<%- include('partials/footer') -%>
