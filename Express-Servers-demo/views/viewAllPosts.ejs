@@ -9,8 +9,8 @@
   </tr>
   <%for(let i = 0; i<sortedPosts.length; i++){%>
     <tr>
-    <td> <a href="/post/<%=sortedPosts[i]['postID']%>"><%=sortedPosts[i]['postTitle']%></a> </td>
-    <td> <%=sortedPosts[i]['postContent']%> </td>
+    <td> <a href="/post/<%=sortedPosts[i]['postID']%>"><%=sortedPosts[i]['title']%></a> </td>
+    <td> <%=sortedPosts[i]['content']%> </td>
     <td> <%=sortedPosts[i]['commentNumber']%> </td>
     </tr>
   <%}%>
