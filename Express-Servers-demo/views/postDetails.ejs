@@ -52,6 +52,7 @@
                 <p class="mb-0">
                   <%=comments[comment]['commentContent']%>
                 </p>
+                <br><br>
                 <%}%>
                 <%}%>
               </div>
@@ -108,20 +109,20 @@
 <h2>Comment on this post:</h2>
 
 
+
 <form action="/commentCreate" method="POST">
-  <div class="form-group">
-    <label for="title">Comment Subject:</label>
-    <input type="text" class="form-control" id="title" aria-describedby="emailHelp" placeholder="Post Content" name="postTitle" value="">
-  </div>
-  <div class="form-group">
-    <label for="topic">Comment:</label>
-    <input type="text" class="form-control" id="topic" placeholder="Message" name="postTopic" value="">
-  </div>
-  <button type="submit" class="btn btn-primary" value="Create new comment!">Post Comment</button>
+
+  <input type="hidden" id="commentPostID" name="commentPostID" value = "<%=post.postID%>">
+
+  <label for="title">Comment subject: </label>
+  <input type="text" id="commentSubject" name="commentSubject" value=""><br>
+
+  <label for="content">Comment: </label>
+  <input type="text" id="commentContent" name="commentContent" value=""><br>
+
+  <br><br>
+  <input type="submit" value="Create new comment!">
 
 </form>
-
-
-
 
 <%- include('partials/footer') -%>
